@@ -26,7 +26,11 @@ kVirus = [],
 dangerArea,
 border,
 dfjkKey,
-failArea
+failArea,
+
+playerName,
+myScore,
+myFail
 
 function startGame() {
     myGameArea.start()
@@ -38,8 +42,12 @@ function startGame() {
 
     dangerArea = new component(270, 50, 'rgba(255, 0, 0, 0.5)', 345, 440)
     border = new component(270, 10, 'black', 345, 490)
-    dfjkKey = new component(270, 100, 'rgba(255, 255, 255, 0.5)', 345, 500)
+    dfjkKey = new component(270, 100, 'images/d.png', 345, 500, 'image')
     failArea = new component(270, 20, 'lightgray', 345, 550)
+
+    playerName = new component('30px', 'Consolas', 'white', 10, 40, 'text')
+    myScore = new component('30px', 'Consolas', 'white', 10, 80, 'text')
+    myFail = new component('30px', 'Consolas', 'white', 10, 120, 'text')
 }
 
 var myGameArea = {
@@ -59,24 +67,41 @@ var myGameArea = {
         window.addEventListener('keyup', function(e) {
             myGameArea.keys[e.keyCode] = false
         })
+
+        console.log(document.getElementById('name').value)
     },
     clear: function() {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
     },
     stop: function() {
         clearInterval(this.interval)
+        this.canvas.style.display = 'none'
+        document.getElementById('end').style.display = 'block'
     }
 }
 
-function component(width, height, color, x, y) {
+function component(width, height, color, x, y, type) {
+    this.type = type
+    if(this.type == 'image') {
+        this.image = new Image()
+        this.image.src = color
+    }
     this.width = width
     this.height = height
     this.x = x
     this.y = y
     this.update = function() {
         ctx = myGameArea.context
-        ctx.fillStyle = color
-        ctx.fillRect(this.x, this.y, this.width, this.height)
+        if(this.type == 'text') {
+            ctx.font = this.width + ' ' + this.height
+            ctx.fillStyle = color
+            ctx.fillText(this.text, this.x, this.y)
+        } else if(this.type == 'image') {
+            ctx.drawImage(this.image, this.x, this.y, this.width, this.height)
+        } else {
+            ctx.fillStyle = color
+            ctx.fillRect(this.x, this.y, this.width, this.height)
+        }
     }
     this.crashWith = function(otherobj) {
         var myleft = this.x
@@ -103,6 +128,7 @@ function updateGameArea() {
         if(dVirus[i].crashWith(dangerArea) && (myGameArea.keys && myGameArea.keys[68])) {
             dVirus[i].y += myGameArea.canvas.height
             score++
+            myGameArea.keys[68] = false
         }
 
         if(dVirus[i].crashWith(failArea)) {
@@ -114,6 +140,7 @@ function updateGameArea() {
         if(fVirus[i].crashWith(dangerArea) && (myGameArea.keys && myGameArea.keys[70])) {
             fVirus[i].y += myGameArea.canvas.height
             score++
+            myGameArea.keys[70] = false
         }
 
         if(fVirus[i].crashWith(failArea)) {
@@ -125,6 +152,7 @@ function updateGameArea() {
         if(jVirus[i].crashWith(dangerArea) && (myGameArea.keys && myGameArea.keys[74])) {
             jVirus[i].y += myGameArea.canvas.height
             score++
+            myGameArea.keys[74] = false
         }
 
         if(jVirus[i].crashWith(failArea)) {
@@ -136,6 +164,7 @@ function updateGameArea() {
         if(kVirus[i].crashWith(dangerArea) && (myGameArea.keys && myGameArea.keys[75])) {
             kVirus[i].y += myGameArea.canvas.height
             score++
+            myGameArea.keys[75] = false
         }
 
         if(kVirus[i].crashWith(failArea)) {
@@ -163,13 +192,13 @@ function updateGameArea() {
         var random = Math.floor(Math.random() * 4)
 
         if(random == 0) {
-            dVirus.push(new component(50, 50, 'red', 350, -50))
+            dVirus.push(new component(50, 50, 'images/corona-virus.png', 350, -50, 'image'))
         } else if(random == 1) {
-            fVirus.push(new component(50, 50, 'red', 420, -50))
+            fVirus.push(new component(50, 50, 'images/corona-virus.png', 420, -50, 'image'))
         } else if(random == 2) {
-            jVirus.push(new component(50, 50, 'red', 490, -50))
+            jVirus.push(new component(50, 50, 'images/corona-virus.png', 490, -50, 'image'))
         } else if(random == 3) {
-            kVirus.push(new component(50, 50, 'red', 560, -50))
+            kVirus.push(new component(50, 50, 'images/corona-virus.png', 560, -50, 'image'))
         }
     }
 
@@ -194,6 +223,15 @@ function updateGameArea() {
 
     border.update()
     dfjkKey.update()
+
+    playerName.text = 'NAME: ' + document.getElementById('name').value
+    playerName.update()
+
+    myScore.text = 'SCORE: ' + score
+    myScore.update()
+
+    myFail.text = 'FAIL: ' + fail
+    myFail.update()
 }
 
 function everyinterval(n) {

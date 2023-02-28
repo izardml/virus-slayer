@@ -13,6 +13,7 @@ body {
 #start {
     background-color: #252525;
     padding: 4rem;
+    /* display: none; */
 }
 
 #start img {
@@ -25,7 +26,7 @@ body {
 
 #start input {
     width: 100%;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem;
     box-sizing: border-box;
     border: none;
     margin-bottom: 0.5rem;
@@ -33,6 +34,13 @@ body {
 
 #start #playBtn {
     display: none;
+}
+
+#end {
+    /* display: block; */
+    display: none;
+    background-color: #252525;
+    padding: 2rem 4rem;
 }
 
 canvas {

@@ -7,7 +7,8 @@
     <title>Game</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body onload="startGame()">
+<!-- <body onload="startGame()"> -->
+<body>
     <div id="start">
         <img src="images/6097437_bacteria_coronavirus_covid_shield_virus_icon.png" alt="icon">
         <h1>Virus Slayer</h1>
@@ -18,7 +19,14 @@
             <li></li>
         </ol>
         <input onchange="show()" type="text" id="name" placeholder="Masukkan Username...">
-        <input type="button" value="Play" id="playBtn">
+        <input onclick="startGame()" type="button" value="Play" id="playBtn">
+    </div>
+
+    <div id="end">
+        <h1>Game Over</h1>
+        <h2>SCORE: 800</h2>
+        <h2>TIME: 800</h2>
+        <h2>SCORE: 800</h2>
     </div>
 
     <script src="script.js"></script>
