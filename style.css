@@ -1,12 +1,40 @@
 body {
-    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
     background-color: black;
+    color: white;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 98vh;
+    padding: 0;
+    margin: 0;
+}
+
+#start {
+    background-color: #252525;
+    padding: 4rem;
+}
+
+#start img {
+    width: 300px;
+}
+
+#start h1 {
+    text-align: center;
+}
+
+#start input {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    box-sizing: border-box;
+    border: none;
+    margin-bottom: 0.5rem;
+}
+
+#start #playBtn {
+    display: none;
 }
 
 canvas {
-    border: 5px solid white;
+    background-color: #252525;
 }
